@@ -15,6 +15,8 @@ import {
 import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/contexts/AppContext";
 import { Project } from "@/contexts/AppContext";
+import { useIdCardOperations } from "@/hooks/useIdCardOperations";
+import { Download } from "lucide-react";
 
 interface ProjectsProps {
   isCollapsed: boolean;
@@ -27,6 +29,8 @@ const Projects = ({ isCollapsed, setIsCollapsed }: ProjectsProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+  const { idCards } = useAppContext();
+  const { handleExportPDF, exportLoading } = useIdCardOperations();
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch =
@@ -207,6 +211,22 @@ const Projects = ({ isCollapsed, setIsCollapsed }: ProjectsProps) => {
                       >
                         <Eye className="h-4 w-4 mr-1" /> View
                       </Button>
+
+                      {(() => {
+                        const myCard = idCards.find(
+                          (c) => c.userId === currentUser?.id && c.projectId === project.id && c.status === "generated"
+                        );
+                        return myCard ? (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={exportLoading}
+                            onClick={() => handleExportPDF([myCard.id])}
+                          >
+                            <Download className="h-4 w-4 mr-1" /> Download ID
+                          </Button>
+                        ) : null;
+                      })()}
 
                       {(currentUser?.role === "admin" ||
                         currentUser?.id === project.creatorId) && (

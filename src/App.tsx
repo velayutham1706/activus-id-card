@@ -101,7 +101,7 @@ const AppRoutes = () => {
                 setIsCollapsed={setIsCollapsed}
               />
             }
-            allowedRoles={["admin"]}
+            allowedRoles={["admin", "creator"]}
             isCollapsed={isCollapsed}
             setIsCollapsed={setIsCollapsed}
           />

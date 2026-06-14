@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
-  ChevronDown,
+  ChevronLeft,
   ChevronRight,
   LayoutDashboard,
   Briefcase,
@@ -207,7 +207,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
             {isCollapsed ? (
               <ChevronRight className="w-4 h-4 text-gray-500" />
             ) : (
-              <ChevronDown className="w-4 h-4 text-gray-500" />
+              <ChevronLeft className="w-4 h-4 text-gray-500" />
             )}
           </button>
 

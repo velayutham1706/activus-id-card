@@ -358,27 +358,28 @@ const UserDetails = ({ isCollapsed, setIsCollapsed }: UserDetailsProps) => {
                   <div>
                     <Label>Projects</Label>
                     <div className="mt-1 p-2 border rounded-md min-h-[100px]">
-                      {user.projectIds.length > 0 ? (
-                        <ul className="space-y-1">
-                          {user.projectIds.map((projectId) => {
-                            const project = projects.find(
-                              (p) => p.id === projectId,
-                            );
-                            return (
-                              <li
-                                key={projectId}
-                                className="text-sm py-1 px-2 hover:bg-gray-50 rounded"
-                              >
-                                {project?.name || "Unknown project"}
+                      {(() => {
+                        const userProjects = projects.filter(
+                          (p) =>
+                            p.participants.includes(user.id) ||
+                            p.creatorId === user.id ||
+                            p.reviewerId === user.id ||
+                            p.approverId === user.id,
+                        );
+                        return userProjects.length > 0 ? (
+                          <ul className="space-y-1">
+                            {userProjects.map((project) => (
+                              <li key={project.id} className="text-sm py-1 px-2 hover:bg-gray-50 rounded">
+                                {project.name}
                               </li>
-                            );
-                          })}
-                        </ul>
-                      ) : (
-                        <div className="text-center text-gray-500 text-sm p-4">
-                          Not assigned to any projects
-                        </div>
-                      )}
+                            ))}
+                          </ul>
+                        ) : (
+                          <div className="text-center text-gray-500 text-sm p-4">
+                            Not assigned to any projects
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
